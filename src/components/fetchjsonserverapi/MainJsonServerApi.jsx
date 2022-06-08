@@ -52,3 +52,17 @@ const MainJsonServerApi = () => {
 }
 
 export default MainJsonServerApi
+
+
+/*
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/danmigwi74/React-JS-Trainings-refresh.git
+git push -u origin main
+
+git add .
+git commit -am "React Refresh"
+git push
+*/
