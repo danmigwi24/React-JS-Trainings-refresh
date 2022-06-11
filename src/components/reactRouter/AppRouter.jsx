@@ -6,24 +6,15 @@ import AboutPageRouter from './AboutPageRouter';
 import HomeRouter from './home/HomeRouter';
 import LayoutRouter from './layout/LayoutRouter';
 import MissingPageRouter from './MissingPageRouter';
-import NewPostRouter from './NewPostRouter';
-import PostPageRouter from './PostPageRouter';
+import NewPostRouter from './add/NewPostRouter';
+import PostPageRouter from './view/PostPageRouter';
+import api from '../../api/posts';
+import { wait } from '@testing-library/user-event/dist/utils';
+import EditPostRouter from './edit/EditPostRouter';
 
 
 const AppRouter = () => {
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: "My first Post",
-      datetime: "2022",
-      body: "Dan"
-    }, {
-      id: 2,
-      title: "My Second Post",
-      datetime: "2022-08-01",
-      body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium, beatae."
-    }
-  ])
+  const [posts, setPosts] = useState([])
   /**
    * Returns an imperative method for changing the location.
    *  Used by s, but may also be used by other elements to change the location.
@@ -31,12 +22,16 @@ const AppRouter = () => {
   const navigate = useNavigate()
   /**
    * Returns a stateful value, and a function to update it.
-   * 
    */
   const [search, setSearch] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+  //Used When Adding new data
   const [postTitle, setPostTitle] = useState('')
   const [postBody, setPostBody] = useState('')
-  const [searchResults, setSearchResults] = useState([])
+  //Perform Edit
+  const [editPostTitle, setEditPostTitle] = useState('')
+  const [editPostBody, setEditPostBody] = useState('')
+
 
 
   /**
@@ -47,6 +42,35 @@ const AppRouter = () => {
   * Some examples of side effects are: fetching-data, directly updating the DOM, and timers.
   *  useEffect accepts two arguments. The second argument is optional.
   */
+
+
+  /**
+   * This takes effect on load time 
+   */
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await api.get('/posts')
+        if (response && response.data) setPosts(response.data)
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.statusText);
+          console.log(error.response.headers);
+          console.log(error.response.config);
+        } else {
+          console.log(error.message);
+        }
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
+  /**
+   * This takes effect when post changes or one does a search of the items
+   */
   useEffect(() => {
     const filterdResults = posts.filter(post => (
       ((post.body).toLowerCase()).includes(search.toLowerCase())
@@ -57,25 +81,55 @@ const AppRouter = () => {
 
 
   //This handles submisson of new peodyct when one is adding  anew product 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const id = posts.length ? posts[posts.length - 1] + 1 : 1
+    const id = posts.length ? posts[posts.length - 1].id + 1 : 1;
     const datetime = format(new Date(), 'MMMM dd, yyyy pp')
 
     const newPost = { id, title: postTitle, datetime, body: postBody }
-    const allPost = [...posts, newPost]
-    setPosts(allPost)
-    setPostTitle('')
-    setPostBody('')
-    navigate('/')
+    try {
+      //Post data
+      const response = await api.post('/posts', newPost)
+      const allPost = [...posts, response.data]
+      setPosts(allPost)
+      setPostTitle('')
+      setPostBody('')
+      navigate('/')
+    } catch (error) {
+      console.log(`Error ${error.message}`);
+    }
+
+  }
+  const handleEdit = async (id) => {
+    try {
+      const datetime = format(new Date(), 'MMMM dd, yyyy pp')
+      const updatedPost = { id, title: editPostTitle, datetime, body: editPostBody }
+      //Performing API request to update data 
+      const response = await api.put(`/posts/${id}`, updatedPost)
+      const updatedPostsList = posts.map(post => (post.id === id ? { ...response.data } : post))
+      setPosts(updatedPostsList)
+      setEditPostTitle('')
+      setEditPostBody('')
+      navigate('/')
+
+    } catch (error) {
+
+    }
 
   }
   // This does deletion of product when one deletes an item
-  const handleDelete = (id) => {
-    console.log(id);
-    const postList = posts.filter(post => (post.id !== id))
-    setPosts(postList)
-    navigate('/')
+  const handleDelete = async (id) => {
+    try {
+      const response = await api.delete(`/posts/${id}`)
+      console.log(response);
+
+      const postList = posts.filter(post => (post.id !== id))
+      setPosts(postList)
+      navigate('/')
+    } catch (error) {
+      console.log(`Error ${error.message}`);
+    }
+
   }
 
   return (
@@ -101,15 +155,43 @@ const AppRouter = () => {
           } />} />
 
           <Route path="post">
-            <Route index element={<NewPostRouter
-              postTitle={postTitle}
-              postBody={postBody}
-              setPostTitle={setPostTitle}
-              setPostBody={setPostBody}
-              handleSubmit={handleSubmit}
-            />} />
+            {/* Add new post */}
+            <Route
+              index
+              element={
+                <NewPostRouter
+                  postTitle={postTitle}
+                  postBody={postBody}
+                  setPostTitle={setPostTitle}
+                  setPostBody={setPostBody}
+                  handleSubmit={handleSubmit}
+                />
+              }
+            />
+            {/* Edit Router */}
+            <Route
+              path="/post/edit/:id"
+              element={
+                <EditPostRouter
+                  posts={posts}
+                  editPostTitle={editPostTitle}
+                  editPostBody={editPostBody}
+                  setEditPostTitle={setEditPostTitle}
+                  setEditPostBody={setEditPostBody}
+                  handleEdit={handleEdit}
+                />
+              }
+            />
 
-            <Route path="/post/:id" element={<PostPageRouter posts={posts} handleDelete={handleDelete} />} />
+            <Route
+              path="/post/:id"
+              element={
+                <PostPageRouter
+                  posts={posts}
+                  handleDelete={handleDelete}
+                />
+              }
+            />
 
           </Route>
 

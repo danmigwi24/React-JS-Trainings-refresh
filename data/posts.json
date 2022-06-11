@@ -1,0 +1,15 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "My first Post",
+      "datetime": "2022",
+      "body": "Dan"
+    }, {
+      "id": 1,
+      "title": "POST Two",
+      "datetime": "2022",
+      "body": "Oops, there was a problem with your link"
+    }
+  ]
+}

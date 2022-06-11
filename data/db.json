@@ -10,5 +10,25 @@
       "checked": true,
       "item": "Betty Migwi"
     }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "Dan",
+      "datetime": "June 11, 2022 4:17:46 PM",
+      "body": "USSD developer,IOS develpoer,Mobile Develioer,Backend Developer with JS and TS"
+    },
+    {
+      "id": 2,
+      "title": "Morris ",
+      "datetime": "June 11, 2022 4:16:51 PM",
+      "body": "Rnd HOD"
+    },
+    {
+      "id": 3,
+      "title": "Karis",
+      "datetime": "June 11, 2022 9:19:39 PM",
+      "body": "Test if woks"
+    }
   ]
 }
