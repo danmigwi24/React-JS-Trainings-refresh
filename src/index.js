@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import AppRouter from './components/reactRouter/AppRouter';
+import AppMain from './components/reactRouter/AppMain';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -10,7 +10,7 @@ root.render(
 
     <BrowserRouter>
       <Routes>
-        <Route path="/*" element={<AppRouter/>} />
+        <Route path="/*" element={<AppMain/>} />
       </Routes>
 
     </BrowserRouter>

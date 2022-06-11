@@ -27,8 +27,8 @@
     {
       "id": 3,
       "title": "Karis",
-      "datetime": "June 11, 2022 9:19:39 PM",
-      "body": "Test if woks"
+      "datetime": "June 11, 2022 10:40:37 PM",
+      "body": "This button component has a primary state that changes its color. When setting the primary prop to true, we are swapping out its background and text color."
     }
   ]
 }

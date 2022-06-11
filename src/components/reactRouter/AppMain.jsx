@@ -9,11 +9,13 @@ import MissingPageRouter from './MissingPageRouter';
 import NewPostRouter from './add/NewPostRouter';
 import PostPageRouter from './view/PostPageRouter';
 import api from '../../api/posts';
-import { wait } from '@testing-library/user-event/dist/utils';
 import EditPostRouter from './edit/EditPostRouter';
+import useWindowSize from '../../customhooks/useWindowSize';
+import useAxiosFetch from '../../customhooks/useAxiosFetch';
+import env from '../../api/env.json'
 
 
-const AppRouter = () => {
+const AppMain = () => {
   const [posts, setPosts] = useState([])
   /**
    * Returns an imperative method for changing the location.
@@ -32,6 +34,11 @@ const AppRouter = () => {
   const [editPostTitle, setEditPostTitle] = useState('')
   const [editPostBody, setEditPostBody] = useState('')
 
+  //use custom hooks
+  const {width} =useWindowSize();
+
+  const {data,fetchError,isLoading} =useAxiosFetch(env.baseUrl);
+
 
 
   /**
@@ -48,6 +55,12 @@ const AppRouter = () => {
    * This takes effect on load time 
    */
   useEffect(() => {
+    setPosts(data)
+  }, [data])
+  
+   /**
+    //This  works the same as @useAxiosFetch
+   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await api.get('/posts')
@@ -67,6 +80,8 @@ const AppRouter = () => {
 
     fetchPosts()
   }, [])
+   */
+  
 
   /**
    * This takes effect when post changes or one does a search of the items
@@ -134,7 +149,7 @@ const AppRouter = () => {
 
   return (
     <div className={`flex flex-col justify-center mx-5`}>
-      <h1 className="text-blue-800 text-2xl border-b-red-600 border-4 p-5">
+      <h1 className="text-blue-800 text-2xl border-b-red-600 border-b-4 rounded-md p-5">
         REACT ROUTER DOM
       </h1>
 
@@ -144,15 +159,20 @@ const AppRouter = () => {
           path="/"
           element={
             <LayoutRouter
+            width={width}
               search={search}
               setSearch={setSearch}
             />
           }
         >
 
-          <Route index element={<HomeRouter posts={
+          <Route index element={<HomeRouter
+           posts={
             searchResults
-          } />} />
+          } 
+          fetchError={fetchError}
+          isLoading={isLoading}
+          />} />
 
           <Route path="post">
             {/* Add new post */}
@@ -206,4 +226,4 @@ const AppRouter = () => {
   );
 }
 
-export default AppRouter;
+export default AppMain;

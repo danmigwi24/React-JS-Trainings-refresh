@@ -21,21 +21,21 @@ const NavRouter = ({ search, setSearch }) => {
             <ul className='flex bg-gray-300 mt-2'>
                 <li>
                     <Link
-                        className='hover:animate-bounce cursor-pointer hover:bg-blue-400 hover:border-2 hover:rounded-md hover:text-white'
+                        className='p-2 cursor-pointer hover:bg-blue-400 hover:border-2 hover:rounded-md hover:text-white'
                          to="/">
                         Home
                     </Link>
                 </li>
                 <li>
                     <Link
-                        className='hover:animate-bounce cursor-pointer hover:bg-blue-400 hover:border-2 hover:rounded-md hover:text-white'
+                        className='p-2 cursor-pointer hover:bg-blue-400 hover:border-2 hover:rounded-md hover:text-white'
                         to="/post">
                         Add Posts
                     </Link>
                 </li>
                 <li>
                     <Link
-                        className='hover:animate-bounce cursor-pointer hover:bg-blue-400 hover:border-2 hover:rounded-md hover:text-white'
+                        className='p-2 cursor-pointer hover:bg-blue-400 hover:border-2 hover:rounded-md hover:text-white'
                         to="/about">
                         About Us
                     </Link>

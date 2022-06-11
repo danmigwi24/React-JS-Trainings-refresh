@@ -4,15 +4,20 @@ import FooterRouter from '../FooterRouter'
 import HeaderRouter from '../HeaderRouter'
 import NavRouter from '../NavRouter'
 
-const LayoutRouter = ({ search, setSearch }) => {
+const LayoutRouter = ({ width, search, setSearch }) => {
     return (
         <div>
-            <HeaderRouter title="LEARNING REACT ROUTER DOM" />
+            <HeaderRouter
+                title="LEARNING REACT ROUTER DOM"
+                width={width} />
             <NavRouter
                 search={search}
                 setSearch={setSearch}
             />
-            <Outlet/>
+            <div className=' max-h-80'>
+            <Outlet />
+            </div>
+            
             <FooterRouter />
         </div>
     )
