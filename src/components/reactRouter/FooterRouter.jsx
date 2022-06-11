@@ -2,7 +2,10 @@ import React from 'react'
 
 const FooterRouter = () => {
   return (
-    <footer className='pt-4'>FooterRouter</footer>
+    <footer 
+    className='flex justify-center items-center mt-10 p-4 w-auto bg-blue-300 text-white'>
+      <p>Copyright &copy; {new Date().getFullYear()}</p>
+      </footer>
   )
 }
 

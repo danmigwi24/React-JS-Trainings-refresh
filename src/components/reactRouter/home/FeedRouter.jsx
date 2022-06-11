@@ -1,12 +1,12 @@
 import React from 'react'
-import PostRouterPage from './PostRouterPage'
+import PostItemRouter from './PostItemRouter'
 
 const FeedRouter = ({posts}) => {
   return (
-    <div>
+    <div className=''>
         {
             posts.map(post=>(
-                <PostRouterPage key={post.id} post={post}/>
+                <PostItemRouter key={post.id} post={post}/> 
             ))
         }
     </div>

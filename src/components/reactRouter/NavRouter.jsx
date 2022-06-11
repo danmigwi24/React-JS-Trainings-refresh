@@ -26,7 +26,7 @@ const NavRouter = ({ search, setSearch }) => {
                 </li>
                 <li className='hover:animate-bounce cursor-pointer hover:bg-blue-400 hover:border-2 hover:rounded-md hover:text-white'>
                     <Link to="/post">
-                        Posts
+                        Add Posts
                     </Link>
                 </li>
                 <li className='hover:animate-bounce cursor-pointer hover:bg-blue-400 hover:border-2 hover:rounded-md hover:text-white'>

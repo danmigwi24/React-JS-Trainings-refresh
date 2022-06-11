@@ -8,7 +8,7 @@ const HomeRouter = ({ posts }) => {
                 posts.length ? (
                     <FeedRouter posts={posts} />
                 ) : (
-                    <p>
+                    <p className='text-red-600 text-lg animate-bounce'>
                         No Post to dispaly
                     </p>
                 )
