@@ -4,12 +4,17 @@ import FooterRouter from '../FooterRouter'
 import HeaderRouter from '../HeaderRouter'
 import NavRouter from '../NavRouter'
 
-const LayoutRouter = ({ width, search, setSearch }) => {
+import { useContext } from 'react'
+import DataContext from '../../../context/DataContext'
+
+const LayoutRouter = () => {
+ 
+    const {  search, setSearch } =useContext(DataContext)
+
     return (
         <div>
             <HeaderRouter
-                title="LEARNING REACT ROUTER DOM"
-                width={width} />
+                title="LEARNING REACT ROUTER DOM" />
             <NavRouter
                 search={search}
                 setSearch={setSearch}

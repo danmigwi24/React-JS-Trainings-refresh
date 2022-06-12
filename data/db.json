@@ -21,14 +21,14 @@
     {
       "id": 2,
       "title": "Morris ",
-      "datetime": "June 11, 2022 4:16:51 PM",
-      "body": "Rnd HOD"
+      "datetime": "June 12, 2022 2:52:01 PM",
+      "body": "Rnd HOD and COO"
     },
     {
       "id": 3,
-      "title": "Karis",
-      "datetime": "June 11, 2022 10:40:37 PM",
-      "body": "This button component has a primary state that changes its color. When setting the primary prop to true, we are swapping out its background and text color."
+      "title": "Moses Maru",
+      "datetime": "June 12, 2022 3:23:23 PM",
+      "body": "USSD Ninja"
     }
   ]
 }

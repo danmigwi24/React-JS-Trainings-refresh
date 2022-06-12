@@ -1,12 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
+import api from '../../../api/posts';
+import { useNavigate } from 'react-router-dom'
+import { format } from 'date-fns';
 
-const NewPostRouter = (
-  { postTitle,
-    postBody,
-    setPostTitle,
-    setPostBody,
-    handleSubmit }
-) => {
+import { useContext } from 'react'
+import DataContext from '../../../context/DataContext'
+
+const NewPostRouter = () => {
+
+const { posts ,setPosts}=useContext(DataContext)
+  //Used When Adding new data
+  const [postTitle, setPostTitle] = useState('')
+  const [postBody, setPostBody] = useState('')
+
+  /**
+     * Returns an imperative method for changing the location.
+     *  Used by s, but may also be used by other elements to change the location.
+     */
+  const navigate = useNavigate()
+  //This handles submisson of new peodyct when one is adding  anew product 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const id = posts.length ? posts[posts.length - 1].id + 1 : 1;
+    const datetime = format(new Date(), 'MMMM dd, yyyy pp')
+
+    const newPost = { id, title: postTitle, datetime, body: postBody }
+    try {
+      //Post data
+      const response = await api.post('/posts', newPost)
+      const allPost = [...posts, response.data]
+      setPosts(allPost)
+      setPostTitle('')
+      setPostBody('')
+      navigate('/')
+    } catch (error) {
+      console.log(`Error ${error.message}`);
+    }
+
+  }
   return (
     <main className='justify-items-center'>
       <h2>New Post</h2>

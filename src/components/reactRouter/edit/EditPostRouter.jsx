@@ -1,12 +1,28 @@
-import React, { useEffect } from 'react'
-import { useParams,Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useParams, Link } from 'react-router-dom'
+import api from '../../../api/posts'
+import {useNavigate } from 'react-router-dom'
+import { format } from 'date-fns';
 
-const EditPostRouter = ({
-    posts, handleEdit, editPostTitle, setEditPostTitle, editPostBody, setEditPostBody
-}) => {
-    const { id } = useParams();
-    const post = posts.find(post => ((post.id).toString() === id))
+import { useContext } from 'react'
+import DataContext from '../../../context/DataContext'
 
+const EditPostRouter = () => {
+
+    const {posts,setPosts }=useContext(DataContext)
+
+    //Perform Edit
+    const [editPostTitle, setEditPostTitle] = useState('')
+    const [editPostBody, setEditPostBody] = useState('')
+
+  /**
+   * Returns an imperative method for changing the location.
+   *  Used by s, but may also be used by other elements to change the location.
+   */
+   const navigate = useNavigate()
+
+   const { id } = useParams();
+   const post = posts.find(post => ((post.id).toString() === id))
     useEffect(() => {
         try {
             if (post) {
@@ -19,6 +35,27 @@ const EditPostRouter = ({
 
         }
     }, [post, setEditPostBody, setEditPostTitle])
+
+
+    
+
+  const handleEdit = async (id) => {
+    try {
+      const datetime = format(new Date(), 'MMMM dd, yyyy pp')
+      const updatedPost = { id, title: editPostTitle, datetime, body: editPostBody }
+      //Performing API request to update data 
+      const response = await api.put(`/posts/${id}`, updatedPost)
+      const updatedPostsList = posts.map(post => (post.id === id ? { ...response.data } : post))
+      setPosts(updatedPostsList)
+      setEditPostTitle('')
+      setEditPostBody('')
+      navigate('/')
+
+    } catch (error) {
+
+    }
+
+  }
 
     return (
         <main className='justify-items-center'>
@@ -48,7 +85,7 @@ const EditPostRouter = ({
                         <button
                             className='bg-blue-800 text-white w-60 mt-5'
                             type="submit"
-                            onClick={(e)=>handleEdit(post.id)}
+                            onClick={(e) => handleEdit(post.id)}
                         >
                             Submit
                         </button>

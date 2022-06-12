@@ -1,9 +1,36 @@
-import React from 'react'
-import { Link, useParams } from 'react-router-dom'
 
-const PostPageRouter = ({ posts, handleDelete }) => {
+import { Link, useParams } from 'react-router-dom'
+import api from '../../../api/posts'
+import {useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import DataContext from '../../../context/DataContext'
+
+const PostPageRouter = () => {
+  const { posts,setPosts} = useContext(DataContext)
   const { id } = useParams();
   const post = posts.find(post => (post.id == id))
+    /**
+   * Returns an imperative method for changing the location.
+   *  Used by s, but may also be used by other elements to change the location.
+   */
+     const navigate = useNavigate()
+
+
+    // This does deletion of product when one deletes an item
+    const handleDelete = async (id) => {
+      try {
+        const response = await api.delete(`/posts/${id}`)
+        console.log(response);
+  
+        const postList = posts.filter(post => (post.id !== id))
+        setPosts(postList)
+        navigate('/')
+      } catch (error) {
+        console.log(`Error ${error.message}`);
+      }
+  
+    }
+  
   return (
     <article>
       {post &&

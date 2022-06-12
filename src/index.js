@@ -32,6 +32,6 @@ git remote add origin https://github.com/danmigwi74/React-JS-Trainings-refresh.g
 git push -u origin main
 
 git add .
-git commit -am "updated upto tutorial 20 "
+git commit -am "updated upto tutorial 21 "
 git push
 */
