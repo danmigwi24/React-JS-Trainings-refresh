@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-
+{/* Route */}
     <BrowserRouter>
       <Routes>
         <Route path="/*" element={<AppMain/>} />
@@ -32,6 +32,6 @@ git remote add origin https://github.com/danmigwi74/React-JS-Trainings-refresh.g
 git push -u origin main
 
 git add .
-git commit -am "React Refresh"
+git commit -am "updated upto tutorial 20 "
 git push
 */
