@@ -9,12 +9,14 @@ const useAxiosFetch=(dataUrl)=>{
 
     useEffect(() => {
       let isMounted =true;
-      const source =axios.CancelToken.source();
+      const controller = new AbortController();
+      //const source =axios.CancelToken.source();
       const fetchData = async(url) => { 
         setIsLoading(true)
         try {
             const response = await axios.get(url,{
-                cancelToken:source.token
+                //cancelToken:source.token,
+                signal: controller.signal
             })
             if (isMounted) {
                 setData(response.data)
@@ -39,7 +41,8 @@ const useAxiosFetch=(dataUrl)=>{
        const cleanUp=()=>{
         console.log('clean up ');
         isMounted =false
-        source.cancel()
+        //source.cancel()
+        controller.abort(); 
        }
 
        return cleanUp;
